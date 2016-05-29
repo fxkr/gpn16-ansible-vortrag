@@ -1,0 +1,67 @@
+---
+
+- hosts: all
+  gather_facts: false
+
+  tasks:
+
+  - apt: package={{ item }} state=present
+    with_items:
+    - vim-nox
+    - screen
+    - htop
+
+  - alternatives: name=editor path=/usr/bin/vim.tiny
+
+
+###########################################################
+
+
+- hosts: all
+  gather_facts: false
+
+  vars:
+    admin_keys:
+      entropia:
+      - ssh-rsa AAAA001
+
+  roles:
+
+  - { role: user, username: entropia }
+
+
+############################################################
+
+
+- hosts: all
+  gather_facts: false
+
+  vars:
+    admin_mail: test@example.com
+
+  tasks:
+
+  - name: Set root mail
+    lineinfile:
+      dest: /etc/aliases
+      regexp: '^root:'
+      line: "root:\t{{ admin_mail }}"
+
+  - name: Clear motd
+    copy: dest=/etc/motd content=""
+
+
+
+#########################################################
+
+
+- hosts: all
+
+  vars:
+    snmp_community: "geheim"
+    trusted_subnets:
+    - "192.168.121.0/24"
+
+  roles:
+  - snmpd
+

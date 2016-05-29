@@ -1,0 +1,10 @@
+---
+
+- user: name="{{ username }}" groups=sudo append=yes
+
+- authorized_key: user="{{ username }}" key="{{ item }}"
+  with_items: "{{ admin_keys[username] }}"
+
+- authorized_key: user="root" key="{{ item }}"
+  with_items: "{{ admin_keys[username] }}"
+

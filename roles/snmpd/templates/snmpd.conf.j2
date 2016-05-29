@@ -1,0 +1,23 @@
+# Listen for connections on all interfaces (both IPv4 *and* IPv6)
+agentAddress udp:161,udp6:[::1]:161
+
+# Full read-only access, but only from trusted subnets and with secret community string
+{% for subnet in trusted_subnets %}
+rocommunity {{ snmp_community }} {{ subnet }}
+{% endfor %}
+
+sysContact GPN
+sysLocation Grosses Studio
+
+# Application + End-to-End layers
+sysServices 72
+
+# 10% Free required on all disks
+includeAllDisks 10%
+
+# Unacceptable 1-, 5-, and 15-minute load averages
+load 12 10 5
+
+# Run as an AgentX master agent
+master agentx
+

@@ -1,0 +1,10 @@
+---
+
+- apt: package={{ item }} state=present
+  with_items:
+  - snmp
+  - snmpd
+
+- template: src=templates/snmpd.conf.j2 dest=/etc/snmp/snmpd.conf
+  notify: restart snmpd
+
